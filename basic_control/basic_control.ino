@@ -17,6 +17,7 @@ int right_deg = 0;
 int left_deg = 0;
 int count = 0;
 int isReady = 0;
+int count_rate = 20;
 //int userInput;
 char receivedChar;
 boolean newData = false;
@@ -111,7 +112,7 @@ void loop()
     if (sensorLeft >= thresholdTape && sensorRight <= thresholdTape){
       Serial.println("Left");    
       right_deg = 0;
-      if (count % 20 == 0){
+      if (count % count_rate == 0){
         left_deg += 1;
       }
   //    slowLeft();
@@ -129,7 +130,7 @@ void loop()
      else if (sensorRight >= thresholdTape && sensorLeft <= thresholdTape){
       Serial.println("Right");
       left_deg = 0;
-      if (count % 20 == 0){
+      if (count % count_rate == 0){
          right_deg += 1;
        }
   //    slowRight();
