@@ -16,7 +16,7 @@ int slowSpeed = 10;
 int right_deg = 0;
 int left_deg = 0;
 int count = 0;
-int count_rate = 20;
+int count_rate = 20;  //THIS should be named something better
 int isReady = 0;
 //int userInput;
 char receivedChar;
