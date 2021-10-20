@@ -3,7 +3,7 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *leftMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
-// setup function to initialize hardware and software
+// Setup function to initialize hardware and software
 const int leftSensor = A0;
 const int rightSensor = A1;// analog pin used to connect the sharp sensor
 int sensorLeft = 0;// variable to store the values from s
@@ -12,25 +12,24 @@ int leftMotorSpeed = 0;
 int rightMotorSpeed = 0;
 int thresholdTape = 150;
 const int fastSpeed = 25;
-const int slowSpeed = 10;
 int right_deg = 0;
 int left_deg = 0;
-int count = 0;
-const int count_rate = 20;  //THIS should be named something better
+int loop_count = 0;
+const int mod_value = 20;
 int isReady = 0;
-//int userInput;
 char receivedChar;
 boolean newData = false;
 
 void setup(){
   // start the serial port
-  int long baudRate = 9600; // NOTE1: The baudRate for sending & receiving programs must match
-  Serial.begin(baudRate);  // NOTE2: Set the baudRate to 115200 for faster communication
-  Serial.begin(9600);           // set up Serial library at 9600 bps
+  int long baudRate = 9600;  // NOTE1: The baudRate for sending & receiving programs must match
+  Serial.begin(baudRate);    // NOTE2: Set the baudRate to 115200 for faster communication
+  Serial.begin(9600);        // set up Serial library at 9600 bps
   AFMS.begin(); 
 }
 
 void recvOneChar() {
+  // Receiving a character from serial
     if (Serial.available() > 0) {
         receivedChar = Serial.read();
         newData = true;
@@ -38,6 +37,7 @@ void recvOneChar() {
 }
 
 void showNewData() {
+  // Checking if new data has been received
     if (newData == true) {
         Serial.println(receivedChar);
         newData = false;
@@ -67,12 +67,12 @@ void stopMotors(){
 }
 
 void loop() 
-{ 
-  
-  if (receivedChar == "R"){ 
+{
+  recvOneChar();
+  if (receivedChar == 'R'){ 
     isReady = 1;
   }
-  if (receivedChar == "S"){
+  if (receivedChar == 'S'){
     isReady = 0;
     stopMotors();
   }
@@ -83,12 +83,12 @@ void loop()
     Serial.print(" "); 
     Serial.println(sensorRight); // printing the value to serial prot
      
-    count += 1;
+    loop_count += 1;
     // LEFT TURN: Right sensor on tape, left sensor not
     if (sensorLeft >= thresholdTape && sensorRight <= thresholdTape){
       Serial.println("Left");    
       right_deg = 0;
-      if (count % count_rate == 0){
+      if (loop_count % mod_value == 0){
         left_deg += 1;
       }
       leftTurn(left_deg);
@@ -105,7 +105,7 @@ void loop()
      else if (sensorRight >= thresholdTape && sensorLeft <= thresholdTape){
       Serial.println("Right");
       left_deg = 0;
-      if (count % count_rate == 0){
+      if (loop_count % mod_value == 0){
          right_deg += 1;
        }
       rightTurn(right_deg);
