@@ -45,11 +45,13 @@ void showNewData() {
 }
 
 void leftTurn(int left_deg){
+  // turn left
   leftMotor-> run(BACKWARD);
   leftMotor->setSpeed(left_deg); 
 }
 
 void goStraight(){
+  // go straight
   leftMotor->run(BACKWARD);
   rightMotor-> run(FORWARD);
   leftMotor->setSpeed(fastSpeed); 
@@ -57,11 +59,13 @@ void goStraight(){
 }
 
 void rightTurn(int right_deg){
+  // turn right
   rightMotor-> run(FORWARD);
   rightMotor->setSpeed(right_deg); 
 }
 
 void stopMotors(){
+  // stop the motors
   leftMotor->run(RELEASE);
   rightMotor->run(RELEASE); 
 }
