@@ -4,19 +4,19 @@ Adafruit_DCMotor *leftMotor = AFMS.getMotor(2);
 Adafruit_DCMotor *rightMotor = AFMS.getMotor(4);
 
 // setup function to initialize hardware and software
-int leftSensor = A0;
-int rightSensor = A1;// analog pin used to connect the sharp sensor
+const int leftSensor = A0;
+const int rightSensor = A1;// analog pin used to connect the sharp sensor
 int sensorLeft = 0;// variable to store the values from s
 int sensorRight = 0;
 int leftMotorSpeed = 0;
 int rightMotorSpeed = 0;
 int thresholdTape = 150;
-int fastSpeed = 25;
-int slowSpeed = 10;
+const int fastSpeed = 25;
+const int slowSpeed = 10;
 int right_deg = 0;
 int left_deg = 0;
 int count = 0;
-int count_rate = 20;  //THIS should be named something better
+const int count_rate = 20;  //THIS should be named something better
 int isReady = 0;
 //int userInput;
 char receivedChar;
@@ -44,28 +44,9 @@ void showNewData() {
     }
 }
 
-void steepLeft(){
- rightMotor->run(FORWARD);
- rightMotor->setSpeed(fastSpeed);   
-}
-
-void slowLeft(){
-  rightMotor->run(FORWARD);
+void leftTurn(int left_deg){
   leftMotor-> run(BACKWARD);
-  rightMotor->setSpeed(fastSpeed); 
-  leftMotor->setSpeed(slowSpeed);  
-}
-
-void steepRight(){
- leftMotor->run(BACKWARD);
- leftMotor->setSpeed(fastSpeed);   
-}
-
-void slowRight(){
-  leftMotor->run(BACKWARD);
-  rightMotor-> run(FORWARD);
-  leftMotor->setSpeed(fastSpeed); 
-  rightMotor->setSpeed(slowSpeed);  
+  leftMotor->setSpeed(left_deg); 
 }
 
 void goStraight(){
@@ -75,19 +56,14 @@ void goStraight(){
   rightMotor->setSpeed(fastSpeed); 
 }
 
-void stopMotors(){
-  leftMotor->run(RELEASE);
-  rightMotor->run(RELEASE); 
-}
-
 void rightTurn(int right_deg){
   rightMotor-> run(FORWARD);
   rightMotor->setSpeed(right_deg); 
 }
 
-void leftTurn(int left_deg){
-  leftMotor-> run(BACKWARD);
-  leftMotor->setSpeed(left_deg); 
+void stopMotors(){
+  leftMotor->run(RELEASE);
+  rightMotor->run(RELEASE); 
 }
 
 void loop() 
@@ -95,27 +71,26 @@ void loop()
   
   if (receivedChar == "R"){ 
     isReady = 1;
-   }
-   if (receivedChar == "S"){
+  }
+  if (receivedChar == "S"){
     isReady = 0;
     stopMotors();
-   }
-   if (isReady){
+  }
+  if (isReady){
     sensorLeft = analogRead(leftSensor); // reading the value from the sensor
     sensorRight = analogRead(rightSensor); // reading the value from the sensor
     Serial.print(sensorLeft); // printing the value to serial prot
     Serial.print(" "); 
     Serial.println(sensorRight); // printing the value to serial prot
-  
-    // LEFT
+     
     count += 1;
+    // LEFT TURN: Right sensor on tape, left sensor not
     if (sensorLeft >= thresholdTape && sensorRight <= thresholdTape){
       Serial.println("Left");    
       right_deg = 0;
       if (count % count_rate == 0){
         left_deg += 1;
       }
-  //    slowLeft();
       leftTurn(left_deg);
     }
     // STRAIGHT
@@ -126,14 +101,13 @@ void loop()
       goStraight();
   //    stopMotors();
      }
-     // RIGHT
+     // RIGHT TURN: Left sensor on tape, right sensor not
      else if (sensorRight >= thresholdTape && sensorLeft <= thresholdTape){
       Serial.println("Right");
       left_deg = 0;
       if (count % count_rate == 0){
          right_deg += 1;
        }
-  //    slowRight();
       rightTurn(right_deg);
      }
    }
