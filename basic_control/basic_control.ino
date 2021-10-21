@@ -43,10 +43,8 @@ void recvWithEndMarker() {
     static byte ndx = 0;
     char endMarker = '\n';
     char rc;
-    
     if (Serial.available() > 0) {
         rc = Serial.read();
-
         if (rc != endMarker) {
             receivedChars[ndx] = rc;
             ndx++;
