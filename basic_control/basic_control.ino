@@ -14,7 +14,7 @@ int thresholdTape = 150;      // If the sensor reading is higher than the thresh
 const int fastSpeed = 25;     // fast motor speed
 int rightDeg = 0;             // variable for controlling steepness of right turns
 int leftDeg = 0;              // variable for controlling steepness of left turns
-int loopCount = 0;           // loop iteration
+int loopCount = 0;            // loop iteration
 const int modValue = 20;      // value determining how often the turn changes
 int isReady = 0;              // 0 or 1 to determine if the robot is not ready or ready
 char receivedChar;            // value received from Python program
