@@ -46,8 +46,8 @@ void showNewData() {
 
 void leftTurn(int left_deg){
   // turn left with the steepness controlled by the input left_deg
-  leftMotor-> run(BACKWARD);
-  leftMotor->setSpeed(left_deg); 
+  rightMotor-> run(BACKWARD);
+  rightMotor->setSpeed(left_deg); 
 }
 
 void goStraight(){
@@ -60,8 +60,8 @@ void goStraight(){
 
 void rightTurn(int right_deg){
   // turn left with the steepness controlled by the input left_deg
-  rightMotor-> run(FORWARD);
-  rightMotor->setSpeed(right_deg); 
+  leftMotor-> run(FORWARD);
+  leftMotor->setSpeed(right_deg); 
 }
 
 void stopMotors(){
@@ -90,7 +90,7 @@ void loop()
     Serial.println(sensorRight); // printing the value to serial port
      
     loop_count += 1;
-    // LEFT TURN: Right sensor on tape, left sensor not
+    // LEFT TURN: Left sensor on tape, right sensor not
     if (sensorLeft >= thresholdTape && sensorRight <= thresholdTape){
       Serial.println("Left");    
       right_deg = 0; // making the right wheel stop
@@ -108,7 +108,7 @@ void loop()
       left_deg = 0;
       goStraight();
      }
-     // RIGHT TURN: Left sensor on tape, right sensor not
+     // RIGHT TURN: Right sensor on tape, left sensor not
      else if (sensorRight >= thresholdTape && sensorLeft <= thresholdTape){
       Serial.println("Right");
       left_deg = 0; // making the left wheel stop
