@@ -107,15 +107,16 @@ void stopMotors(){
 void loop() 
 {
   recvOneChar();
-  // if R is received from the serial moniter, then the robot will run
+  // if R is received from the serial monitor, then the robot will run
   if (receivedChar == 'R'){ 
     isReady = 1;
   }
-  // if S is received from the serial moniter, then the robot will stop
+  // if S is received from the serial monitor, then the robot will stop
   if (receivedChar == 'S'){
     isReady = 0;
     stopMotors();
   }
+  // if M is received from the serial monitor, then read the input mod value
   if (receivedChar == 'M'){
     recvWithEndMarker();
     modValue = receivedModValue;
