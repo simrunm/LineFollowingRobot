@@ -45,7 +45,7 @@ void showNewData() {
 }
 
 void leftTurn(int left_deg){
-  // turn left
+  // turn left with the steepness controlled by the input left_deg
   leftMotor-> run(BACKWARD);
   leftMotor->setSpeed(left_deg); 
 }
@@ -59,7 +59,7 @@ void goStraight(){
 }
 
 void rightTurn(int right_deg){
-  // turn right
+  // turn left with the steepness controlled by the input left_deg
   rightMotor-> run(FORWARD);
   rightMotor->setSpeed(right_deg); 
 }
@@ -93,7 +93,8 @@ void loop()
     // LEFT TURN: Right sensor on tape, left sensor not
     if (sensorLeft >= thresholdTape && sensorRight <= thresholdTape){
       Serial.println("Left");    
-      right_deg = 0;
+      right_deg = 0; // making the right wheel stop
+      // if the robot continues to enter this statement, then increase the sharpness of the left turn
       if (loop_count % mod_value == 0){
         left_deg += 1;
       }
@@ -110,7 +111,8 @@ void loop()
      // RIGHT TURN: Left sensor on tape, right sensor not
      else if (sensorRight >= thresholdTape && sensorLeft <= thresholdTape){
       Serial.println("Right");
-      left_deg = 0;
+      left_deg = 0; // making the left wheel stop
+       // if the robot continues to enter this statement, then increase the sharpness of the right turn
       if (loop_count % mod_value == 0){
          right_deg += 1;
        }
